@@ -3,8 +3,10 @@
 A full-stack Next.js application that validates user-entered CV data against uploaded PDF documents using AI.
 
 ## Screenshot
-
+### Application
 ![alt text](image.png)
+### N8N Workflow
+![alt text](image-1.png)
 
 ## Features
 
