@@ -1,0 +1,195 @@
+# CV Validator Application
+
+A full-stack Next.js application that validates user-entered CV data against uploaded PDF documents using AI.
+
+## Features
+
+- **Frontend**: Next.js/React with Tailwind CSS for a clean, responsive UI
+- **Backend**: Node.js with tRPC for type-safe API endpoints
+- **Database**: PostgreSQL with Prisma ORM
+- **AI Validation**: OpenAI integration with n8n workflow to compare form data with CV content 
+- **File Upload**: PDF upload with validation and storage
+- **Docker**: Complete containerized deployment setup
+
+## Architecture
+
+```
+├── Frontend (Next.js/React)
+│   ├── Form for user data entry
+│   ├── PDF file upload
+│   └── Validation results display
+├── Backend (tRPC + Node.js)
+│   ├── User data management
+│   ├── File upload handling
+│   └── AI validation service (with n8n workflow)
+├── Database (PostgreSQL + Prisma)
+│   ├── User data storage
+│   └── Validation results
+└── AI Service (OpenAI)
+    └── CV content analysis and comparison
+```
+
+## Prerequisites
+
+- Node.js 18+
+- Docker and Docker Compose
+- OpenAI API key
+
+## Quick Start with Docker
+
+1. **Clone and setup environment**:
+
+   ```bash
+   git clone <your-repo>
+   cd cv-validator
+   cp .env.example .env
+   ```
+
+2. **Configure environment variables**:
+   Edit `.env` file and add your OpenAI API key:
+
+   ```bash
+   OPENAI_API_KEY=your-actual-openai-api-key
+   ```
+
+3. **Deploy with Docker**:
+
+   ```bash
+   docker-compose up --build
+   ```
+
+4. **Initialize database**:
+
+   ```bash
+   docker exec cv-validator-app npx prisma db push
+   ```
+
+5. **Access the application**:
+   Open http://localhost:3000
+
+## Development Setup
+
+1. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+2. **Setup database**:
+
+   ```bash
+   npm run db:push
+   ```
+
+3. **Start development server**:
+   ```bash
+   npm run dev
+   ```
+
+## Project Structure
+
+```
+src/
+├── pages/
+│   ├── api/
+│   │   ├── trpc/[trpc].ts     # tRPC API handler
+│   │   └── upload.ts          # File upload endpoint
+│   ├── _app.tsx               # App configuration
+│   └── index.tsx              # Main form page
+├── server/
+│   ├── api/
+│   │   ├── routers/
+│   │   │   └── user.ts        # User-related tRPC procedures
+│   │   ├── root.ts            # Main tRPC router
+│   │   └── trpc.ts            # tRPC configuration
+│   ├── services/
+│   │   └── cvValidator.ts     # AI validation service
+│   └── db.ts                  # Database configuration
+└── utils/
+    └── api.ts                 # tRPC client configuration
+```
+
+## API Endpoints
+
+### tRPC Procedures
+
+- `user.create` - Create new user with CV data
+- `user.validateCV` - Validate form data against uploaded CV
+- `user.getById` - Retrieve user by ID
+- `user.getAll` - Get all users
+
+### REST Endpoints
+
+- `POST /api/upload` - Upload CV PDF files
+
+## AI Validation Process
+
+1. **PDF Parsing**: Extract text content from uploaded PDF
+2. **Data Comparison**: Use OpenAI to compare form fields with CV content
+3. **Validation Report**: Generate detailed match/mismatch results
+4. **Storage**: Save validation results to database
+
+The AI validation checks:
+
+- Name matching (flexible formatting)
+- Email verification (exact match)
+- Phone number validation (flexible formatting)
+- Skills presence in CV
+- Experience consistency
+
+## Database Schema
+
+```sql
+-- Users table
+CREATE TABLE users (
+    id TEXT PRIMARY KEY,
+    fullName TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    phone TEXT,
+    skills TEXT[],
+    experience TEXT,
+    cvFileName TEXT,
+    cvFilePath TEXT,
+    createdAt TIMESTAMP DEFAULT NOW(),
+    updatedAt TIMESTAMP DEFAULT NOW()
+);
+
+```
+
+## Environment Variables
+
+| Variable         | Description                   | Required |
+| ---------------- | ----------------------------- | -------- |
+| `DATABASE_URL`   | PostgreSQL connection string  | Yes      |
+| `OPENAI_API_KEY` | OpenAI API key for validation | Yes      |
+
+## Docker Configuration
+
+The application includes:
+
+- **Multi-stage Dockerfile** for optimized production builds
+- **docker-compose.yml** with PostgreSQL and app services
+- **Volume mounting** for file uploads
+- **Network configuration** for service communication
+
+## Security Features
+
+- **File validation**: Only PDF files accepted
+- **File size limits**: 5MB maximum upload size
+- **Input validation**: Zod schemas for type safety
+- **Error handling**: Comprehensive error management
+- **Data sanitization**: Secure file naming and storage
+
+## Technology Stack
+
+- **Frontend**: Next.js 14, React 18, Tailwind CSS
+- **Backend**: Node.js, tRPC, Prisma ORM
+- **Database**: PostgreSQL
+- **AI**: OpenAI GPT-4-mini
+- **File Processing**: PDF-parse, Multer
+- **Deployment**: Docker, Docker Compose
+- **Type Safety**: TypeScript throughout
+
+## License
+
+This project is licensed under the MIT License.
