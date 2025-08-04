@@ -7,7 +7,7 @@ A full-stack Next.js application that validates user-entered CV data against upl
 - **Frontend**: Next.js/React with Tailwind CSS for a clean, responsive UI
 - **Backend**: Node.js with tRPC for type-safe API endpoints
 - **Database**: PostgreSQL with Prisma ORM
-- **AI Validation**: OpenAI integration with n8n workflow to compare form data with CV content 
+- **AI Validation**: OpenAI integration with n8n workflow to compare form data with CV content
 - **File Upload**: PDF upload with validation and storage
 - **Docker**: Complete containerized deployment setup
 
@@ -55,13 +55,13 @@ A full-stack Next.js application that validates user-entered CV data against upl
 3. **Deploy with Docker**:
 
    ```bash
-   docker-compose up --build
+   docker-compose up -d --build
    ```
 
 4. **Initialize database**:
 
    ```bash
-   docker exec cv-validator-app npx prisma db push
+   docker exec cv-simple-checker npx prisma db push
    ```
 
 5. **Access the application**:
@@ -89,24 +89,30 @@ A full-stack Next.js application that validates user-entered CV data against upl
 ## Project Structure
 
 ```
-src/
-├── pages/
-│   ├── api/
-│   │   ├── trpc/[trpc].ts     # tRPC API handler
-│   │   └── upload.ts          # File upload endpoint
-│   ├── _app.tsx               # App configuration
-│   └── index.tsx              # Main form page
-├── server/
-│   ├── api/
-│   │   ├── routers/
-│   │   │   └── user.ts        # User-related tRPC procedures
-│   │   ├── root.ts            # Main tRPC router
-│   │   └── trpc.ts            # tRPC configuration
-│   ├── services/
-│   │   └── cvValidator.ts     # AI validation service
-│   └── db.ts                  # Database configuration
-└── utils/
-    └── api.ts                 # tRPC client configuration
+├── Dockerfile                   # Docker build instructions
+├── docker-compose.yml           # Docker Compose setup
+├── uploads/                     # Uploaded CV PDF files
+└── src/
+    ├── app/
+    │   ├── _components/
+    │   │   └── user.tsx             # User-related React component
+    │   ├── api/
+    │   │   ├── trpc/[trpc].ts       # tRPC API handler
+    │   │   └── upload.ts            # File upload endpoint
+    │   ├── layout.tsx               # App layout
+    │   └── page.tsx                 # Main page
+    ├── server/
+    │   ├── api/
+    │   │   ├── routers/
+    │   │   │   └── user.ts          # User-related tRPC procedures
+    │   │   ├── root.ts              # Main tRPC router
+    │   │   └── trpc.ts              # tRPC configuration
+    │   ├── services/
+    │   │   └── cvValidator.ts       # AI validation service
+    │   └── db.ts                    # Database configuration
+    ├── trpc/
+    │   ├── query-client.ts          # React Query client setup for tRPC
+    │   └── index.ts                 # tRPC client exports
 ```
 
 ## API Endpoints
@@ -115,8 +121,6 @@ src/
 
 - `user.create` - Create new user with CV data
 - `user.validateCV` - Validate form data against uploaded CV
-- `user.getById` - Retrieve user by ID
-- `user.getAll` - Get all users
 
 ### REST Endpoints
 
@@ -168,7 +172,7 @@ CREATE TABLE users (
 The application includes:
 
 - **Multi-stage Dockerfile** for optimized production builds
-- **docker-compose.yml** with PostgreSQL and app services
+- **composer.yml** with PostgreSQL and app services
 - **Volume mounting** for file uploads
 - **Network configuration** for service communication
 
@@ -182,11 +186,11 @@ The application includes:
 
 ## Technology Stack
 
-- **Frontend**: Next.js 14, React 18, Tailwind CSS
+- **Frontend**: Next.js 15, React 19, Tailwind CSS
 - **Backend**: Node.js, tRPC, Prisma ORM
 - **Database**: PostgreSQL
 - **AI**: OpenAI GPT-4-mini
-- **File Processing**: PDF-parse, Multer
+- **File Processing**: PDF-parse
 - **Deployment**: Docker, Docker Compose
 - **Type Safety**: TypeScript throughout
 
