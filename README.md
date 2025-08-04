@@ -1,4 +1,4 @@
-# CV Validator Application
+# CV Simple Checker Application
 
 A full-stack Next.js application that validates user-entered CV data against uploaded PDF documents using AI.
 
@@ -41,7 +41,7 @@ A full-stack Next.js application that validates user-entered CV data against upl
 
    ```bash
    git clone <your-repo>
-   cd cv-validator
+   cd cv-simple-checker
    cp .env.example .env
    ```
 
