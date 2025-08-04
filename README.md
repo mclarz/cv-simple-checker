@@ -29,6 +29,12 @@ A full-stack Next.js application that validates user-entered CV data against upl
     └── CV content analysis and comparison
 ```
 
+### Architecture Diagram
+
+- **Editable Diagram (Excalidraw JSON):** [View](https://excalidraw.com/#json=ArCtEFxBP7zXu781hCRX3,JIOr2AvfGI4sSPb4C9qyFg)
+
+---
+
 ## Prerequisites
 
 - Node.js 18+
@@ -194,6 +200,24 @@ The application includes:
 - **Deployment**: Docker, Docker Compose
 - **Type Safety**: TypeScript throughout
 
-## License
+## Possible Challenges
 
-This project is licensed under the MIT License.
+### Docker Networking
+
+- Containers can’t access `localhost` on the host machine.
+- Use `host.docker.internal` (Mac/Windows) or internal DNS (e.g., service names in `docker-compose`) to enable cross-container communication.
+
+### File Handling
+
+- PDF text extraction may fail for certain formats, such as scanned PDFs or those with complex layouts.
+- May require fallback solutions or OCR for image-based PDFs.
+
+### Security
+
+- Uploaded PDFs must be sanitized to prevent malicious content.
+- Ensure secure file storage, access control, and temporary file cleanup.
+
+### Performance
+
+- AI validation adds latency because of network calls to OpenAI and n8n.
+- Consider asynchronous validation or caching strategies if performance is critical.
