@@ -31,7 +31,7 @@ A full-stack Next.js application that validates user-entered CV data against upl
 
 ### Architecture Diagram
 
-- **Editable Diagram (Excalidraw JSON):** [View](https://excalidraw.com/#json=ArCtEFxBP7zXu781hCRX3,JIOr2AvfGI4sSPb4C9qyFg)
+- **Editable Diagram (Excalidraw JSON):** [View](https://excalidraw.com/#json=vWzJ9-3jGuuoVJ_aM7X7p,17L0hpIsjb5dNDZzR-ZOhA)
 
 ---
 
