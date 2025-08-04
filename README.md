@@ -2,6 +2,10 @@
 
 A full-stack Next.js application that validates user-entered CV data against uploaded PDF documents using AI.
 
+## Screenshot
+
+![alt text](image.png)
+
 ## Features
 
 - **Frontend**: Next.js/React with Tailwind CSS for a clean, responsive UI
