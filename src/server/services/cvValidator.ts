@@ -27,12 +27,6 @@ export async function validateCVWithN8n(formData: FormData) {
   const pdfData = await pdfParse(pdfBuffer);
   const cvText = pdfData.text;
 
-  console.log({
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...formData, cvText }),
-  });
-
   // url  can be change once deployed to n8n server
   const response = await fetch(
     // "http://localhost:5678/webhook-test/validate-cv",
@@ -43,7 +37,6 @@ export async function validateCVWithN8n(formData: FormData) {
       body: JSON.stringify({ ...formData, cvText }),
     },
   );
-  console.log("N8n response:", response);
   return await response.json();
 }
 

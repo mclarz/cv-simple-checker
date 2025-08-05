@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { validateCV, validateCVWithN8n } from "~/server/services/cvValidator";
+import { validateCVWithN8n } from "~/server/services/cvValidator";
 
 export const cvRouter = createTRPCRouter({
   submit: publicProcedure
@@ -15,9 +15,7 @@ export const cvRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      console.log("Validation input:", input);
       const validationResult = await validateCVWithN8n(input);
-      console.log("Validation Result:", validationResult);
 
       if (validationResult.isValid) {
         await ctx.db.user.create({ data: input });
@@ -25,10 +23,8 @@ export const cvRouter = createTRPCRouter({
       } else {
         return {
           status: "fail",
-          message:
-            "CV validation failed. Mismatched fields are: " +
-            validationResult.matchedFields.join(", "),
-          errors: validationResult.errors,
+          message: validationResult.errors.join(", "),
+          errors: validationResult,
         };
       }
     }),

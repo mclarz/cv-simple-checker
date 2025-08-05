@@ -81,7 +81,7 @@ export function User() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <input
           type="text"
-          placeholder="Full Namesss"
+          placeholder="Full Name"
           value={formData.fullName}
           onChange={(e) =>
             setFormData({ ...formData, fullName: e.target.value })
@@ -137,6 +137,9 @@ export function User() {
 
       {result?.status === "fail" && (
         <p className="text-red-500">{result.message}</p>
+      )}
+      {result?.status === "success" && (
+        <p className="text-green-500">Details are matched to the CV</p>
       )}
     </div>
   );
